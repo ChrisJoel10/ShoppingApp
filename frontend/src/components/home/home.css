@@ -1,0 +1,42 @@
+.card {
+    height: 400px;
+    width: 400px;
+    border: 4px solid blue;
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.product-grid {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    margin: 10px;
+    flex-wrap: wrap;
+}
+
+.product-image {
+}
+
+.image-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.Cart {
+    margin: 10px 0 10px 0;
+    border: 4px solid blue;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+
+}
+
+.cart-container {
+    margin: 10px;
+}
