@@ -5,6 +5,7 @@ import Login from './components/login/login.component';
 import Home from './components/home/home.component';
 import { PrivateRoutes } from './common/private-router';
 import ChangePwdComponent from './components/login/changePwd.component';
+import Signup from './components/login/signup';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         </Route>
 
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
   );

@@ -99,6 +99,8 @@ class Login extends Component {
             <div>
               {this.state.message}
             </div>
+            <br/>
+          <a href="/signup">New User? Sign Up here</a>
           </Box>
         </Box>
       </div>

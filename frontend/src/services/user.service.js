@@ -7,14 +7,16 @@ class UserService {
 
   sendHTTP(method, url, data) {
     let token = localStorage.getItem("user");
-    let token1 = JSON.parse(token);
+    var headersval = {}
+    if(token != null) {
+      let token1 = JSON.parse(token);
+      headersval.Authorization = "Bearer " + token1.token;
+    }
     return axios.request({
       method: method,
       url: API_URL + url,
       data: data,
-      headers: {
-        "Authorization": "Bearer " + token1.token
-      }
+      headers: headersval
     }).then(res => 
       res.data);
   }

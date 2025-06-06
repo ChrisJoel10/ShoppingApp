@@ -26,15 +26,36 @@ class ChangePwd extends Component {
 
 
   onChangePassword1(e) {
-    this.setState({
-      password1: e.target.value
-    });
+    var password = e.target.value;
+    var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    if(password.match(regex)) {
+      this.setState({
+        password1: e.target.value,
+        passwordVal: "",
+        message: ""
+      });
+    }
+    else {
+      this.setState({
+        message: "Weak password. It should be atleast 8 characters long with atleast one number and symbol"
+      })
+    }
+
   }
 
   onChangePassword2(e) {
-    this.setState({
-      password2: e.target.value
-    });
+    var confirmpassword = e.target.value;
+    if(this.state.password1 == confirmpassword) {
+      this.setState({
+        password2: e.target.value,
+        confirmpasswordVal: ""
+    })
+    }
+    else {
+      this.setState({
+        password2: "Password doesn't match"
+      })
+    }
   }
 
   onSubmit(e) {
@@ -45,22 +66,31 @@ class ChangePwd extends Component {
           });
     }
     else{
+      if(this.state.passwordVal == "" && this.state.confirmpasswordVal == "")
+      {
         userService.sendHTTP("post", "api/users/changePwd", {password: this.state.password1}).then(
-        response => {
-          if(response.isSuccess == "true") {
-            this.setState({
-              message: "Password Changed",
-              successful: true
-            });
+          response => {
+            if(response.isSuccess == "true") {
+              this.setState({
+                message: "Password Changed",
+                successful: true
+              });
+            }
+            else {
+              this.setState({
+                message: response.message,
+                successful: false
+              });
+            }
           }
-          else {
-            this.setState({
-              message: response.message,
-              successful: false
-            });
-          }
-        }
-      );
+        );
+      }
+      else {
+        this.setState({
+          message: "Weak password. It should be atleast 8 characters long with atleast one number and symbol",
+          successful: false
+        });
+      }
     }
   }
   

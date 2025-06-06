@@ -1,9 +1,6 @@
 package com.security.Shopping.Controllers;
 
-import com.security.Shopping.DataAccess.AddProductRequest;
-import com.security.Shopping.DataAccess.BuyProductsRequest;
-import com.security.Shopping.DataAccess.ProductResponse;
-import com.security.Shopping.DataAccess.UserResponse;
+import com.security.Shopping.DataAccess.*;
 import com.security.Shopping.Entities.Product;
 import com.security.Shopping.Entities.User;
 import com.security.Shopping.Services.ProductService;
@@ -48,5 +45,19 @@ public class ProductController {
     {
         String username = LoggedinUser.getUsername();
         return productService.buyProducts(buyProductsRequests, username);
+    }
+
+    @PostMapping("/AddFeedback")
+    public UserResponse buyProducts(@RequestBody AddFeedBackRequest addFeedBackRequest)
+    {
+        String username = LoggedinUser.getUsername();
+        return productService.AddFeedBack(addFeedBackRequest, username);
+    }
+
+    @GetMapping("/GetFeedbacks")
+    public List<FeedBackResponse> getFeedbacks()
+    {
+        String username = LoggedinUser.getUsername();
+        return productService.getFeedBacks(username);
     }
 }

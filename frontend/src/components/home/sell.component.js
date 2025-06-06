@@ -21,7 +21,10 @@ class Sell extends Component {
             message: "",
             name:"",
             desc:"",
-            number: 0
+            number: 0,
+            nameVal: "",
+            descVal: "",
+            numberVal: ""
         }
         this.onChangename = this.onChangename.bind(this);
         this.onChangedesc = this.onChangedesc.bind(this);
@@ -32,28 +35,65 @@ class Sell extends Component {
 
     
   onChangename(e) {
-    this.setState({
-      name: e.target.value
-    });
+    var productname = e.target.value;
+    let regex = "^[A-Za-z_ 0-9]{2,20}$";
+    if(productname.match(regex)) {
+      this.setState({
+        name: e.target.value,
+        nameVal: ""
+      });
+    }
+    else {
+      this.setState({
+        nameVal: "Invalid Product name."
+      })
+    }
+
   }
 
   onChangedesc(e) {
-    this.setState({
-      desc: e.target.value
-    });
+    var description = e.target.value;
+    let regex = "^[A-Za-z_ 0-9]{2,40}$";
+    if(description.match(regex)) {
+      this.setState({
+        desc: e.target.value,
+        descVal: ""
+      });
+    }
+    else {
+      this.setState({
+        descValVal: "Invalid Product description."
+      })
+    }
+
   }
 
   onChangeNumber(e) {
-    this.setState({
-      number: e.target.value
-    });
+    var value = e.target.value;
+    if(value < 1)
+    {
+      this.setState({numberVal: "Enter value greater than 1"})
+    }
+    else
+    {
+      this.setState({
+        number: e.target.value,
+        numberVal: ""
+      });
+    }
   }
   
   onSubmit(e) {
-    userService.sendHTTP("post", "api/product/AddProduct", {name: this.state.name, description:this.state.desc, numberofavailable:this.state.number}).then((res) => { 
-            this.setState({isError: res.isError, message: res.message})
-        }
-    );
+    if(this.state.nameVal == "" && this.state.descVal == "" && this.state.numberVal == "")
+    {
+      userService.sendHTTP("post", "api/product/AddProduct", {name: this.state.name, description:this.state.desc, numberofavailable:this.state.number}).then((res) => { 
+        this.setState({isError: res.isError, message: res.message})
+          }
+      );
+    }
+    else {
+      this.setState({message: "Invalid form input"})
+    }
 
   }
   

@@ -16,6 +16,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import Badge from '@mui/material/Badge';
 import Drawer from '@mui/joy/Drawer';
 import Cart from './cart';
+import FeedbackComponent from "./feedback.component";
+import FeedbackHistoryComponent from "./feedbackHistory.component";
 
 class Home extends Component {
   constructor(props) {
@@ -73,7 +75,10 @@ class Home extends Component {
         return <BuyComponent />
       case "sell":
         return <SellComponent />
-    
+      case "feedback":
+        return <FeedbackComponent />
+      case "feedback_history":
+        return <FeedbackHistoryComponent />
       default:
         break;
     }
@@ -113,6 +118,13 @@ class Home extends Component {
           </Button>
           <Button color="inherit" component={Link} onClick={() => {this.navigatePage("sell")}}>
             Sell
+          </Button>
+          <Button color="inherit" component={Link} onClick={() => {this.navigatePage("feedback")}}>
+            Feedback
+          </Button>
+
+          <Button color="inherit" component={Link} onClick={() => {this.navigatePage("feedback_history")}}>
+            Feedback History
           </Button>
 
           <IconButton

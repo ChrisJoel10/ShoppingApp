@@ -1,11 +1,10 @@
 package com.security.Shopping.Services;
 
-import com.security.Shopping.DataAccess.AddProductRequest;
-import com.security.Shopping.DataAccess.BuyProductsRequest;
-import com.security.Shopping.DataAccess.ProductResponse;
-import com.security.Shopping.DataAccess.UserResponse;
+import com.security.Shopping.DataAccess.*;
+import com.security.Shopping.Entities.Feedback;
 import com.security.Shopping.Entities.Product;
 import com.security.Shopping.Entities.User;
+import com.security.Shopping.Repository.FeedBackRepository;
 import com.security.Shopping.Repository.ProductRepository;
 import com.security.Shopping.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,14 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService{
     private ProductRepository productRepository;
     private UserRepository userRepository;
+    private FeedBackRepository feedBackRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository)
+    public ProductServiceImpl(ProductRepository productRepository, UserRepository userRepository, FeedBackRepository feedBackRepository)
     {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.feedBackRepository = feedBackRepository;
     }
     @Override
     public List<ProductResponse> getAllProducts(String username) {
@@ -84,5 +85,33 @@ public class ProductServiceImpl implements ProductService{
 
         }
 
+    }
+
+    @Override
+    public UserResponse AddFeedBack(AddFeedBackRequest addFeedBackRequest, String Username) {
+        User user = this.userRepository.findByUsername(Username);
+        Feedback feedback = new Feedback(addFeedBackRequest.description, user);
+
+        Feedback response = this.feedBackRepository.save(feedback);
+        if(response == null)
+        {
+            return new UserResponse(false, "Feedback Not Added", 0);
+        }
+        else
+        {
+            return new UserResponse(true, "Feedback Added", 1);
+        }
+    }
+
+    @Override
+    public List<FeedBackResponse> getFeedBacks(String Username) {
+        List<FeedBackResponse> result = this.feedBackRepository.findByUser_Username(Username).stream().map(this::getFeedBackResponse).toList();
+        return result;
+    }
+
+    private FeedBackResponse getFeedBackResponse(Feedback feedback) {
+        FeedBackResponse result = new FeedBackResponse();
+        result.description = feedback.getDescription();
+        return result;
     }
 }
